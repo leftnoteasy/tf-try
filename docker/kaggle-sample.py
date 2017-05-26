@@ -7,6 +7,7 @@ import cv2
 import math
 import tensorflow as tf
 import numpy as np
+import time as time_
 
 """
 Define flags
@@ -153,6 +154,8 @@ def train_neural_network(x):
         successful_runs = 0
         total_runs = 0
 
+        last_time = time_.time()
+
         for epoch in range(hm_epochs):
             epoch_loss = 0
             for data in train_data:
@@ -179,6 +182,8 @@ def train_neural_network(x):
                 print(i[0].shape)
 
             print('Accuracy:', accuracy.eval({x: [i[0] for i in validation_data], y: [i[1] for i in validation_data]}))
+            print('Time used in this round=' + str(time_.time() - last_time) + ' secs.')
+            last_time = time_.time()
             # print('Accuracy:',accuracy)
 
         print('Done. Finishing accuracy:')
