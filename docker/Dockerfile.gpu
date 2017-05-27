@@ -53,12 +53,12 @@ COPY jupyter_notebook_config.py /root/.jupyter/
 
 # Copy sample notebooks.
 RUN mkdir /data/
-COPY notebooks /data/notebooks
+#COPY notebooks /data/notebooks
 
 # Jupyter has issues with being run directly:
 #   https://github.com/ipython/ipython/issues/7062
 # We just add a little wrapper script.
-COPY run_jupyter.sh /data/
+#COPY run_jupyter.sh /data/
 
 # For CUDA profiling, TensorFlow requires CUPTI.
 ENV LD_LIBRARY_PATH /usr/local/cuda/extras/CUPTI/lib64:$LD_LIBRARY_PATH
@@ -70,7 +70,11 @@ EXPOSE 8888
 
 
 ADD example-distributed-trainier.py /data/example-distributed-trainier.py
+ADD kaggle-sample.py /data/kaggle-sample.py
 RUN chown -R nobody /data
+
+RUN apt-get update && apt-get -y install python-pip python-dev python-tk
+RUN pip install dicom opencv-python pandas
 
 CMD ["/run_jupyter.sh", "--allow-root"]
 
