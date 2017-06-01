@@ -48,8 +48,6 @@ RUN pip --no-cache-dir install \
 
 # RUN ln -s /usr/bin/python3 /usr/bin/python#
 
-# Set up our notebook config.
-COPY jupyter_notebook_config.py /root/.jupyter/
 
 # Copy sample notebooks.
 RUN mkdir /data/
@@ -89,10 +87,16 @@ RUN pip install dicom opencv-python pandas
 ADD self_driving_end_2_end.sh /data/self_driving_end_2_end.sh
 RUN chmod +x /data/self_driving_end_2_end.sh
 
+ADD car-detection.ipynb /data/car-detection.ipynb
+
 RUN usermod -u 99 nobody && groupmod -g 99 nogroup
+
+RUN mkdir -p /nonexistent/.jupyter
+ADD jupyter_notebook_config.py /nonexistent/.jupyter/jupyter_notebook_config.py
+
+RUN chown -R nobody /nonexistent
 RUN chown -R nobody /data
 
-
-CMD ["/data/self_driving_end_2_end.sh"]
+CMD ["/usr/local/bin/jupyter", "notebook", "car-detection.ipynb"]
 
 
