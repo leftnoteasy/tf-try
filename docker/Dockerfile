@@ -1,4 +1,5 @@
-FROM ubuntu:16.04
+#FROM ubuntu:16.04
+FROM nvidia/cuda-ppc64le:8.0-cudnn5-devel
 
 MAINTAINER Craig Citro <craigcitro@google.com>
 
