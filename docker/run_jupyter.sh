@@ -15,4 +15,4 @@
 # ==============================================================================
 
 
-jupyter notebook "$@"
+cd /data && /usr/local/bin/jupyter notebook /data/car-detection.ipynb
